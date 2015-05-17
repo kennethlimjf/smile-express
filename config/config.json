@@ -1,0 +1,18 @@
+{
+  "development": {
+    "database": "smile_development",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres"
+  },
+  "test": {
+    "database": "smile_test",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "database": "smile_production",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}

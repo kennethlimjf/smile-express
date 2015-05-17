@@ -1,0 +1,167 @@
+<div class="driver-show">
+  <div>
+    <a class="back" href="javascript:history.back()">Back</a>
+  </div>
+
+  {{#with driver}}
+  <div class="large-7 columns">
+    <table>
+      <thead>
+        <tr>
+          <th width="20%">Driver Details</th>
+          <th width="80%"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Full Name</td>
+          <td>{{user.firstName}} {{user.lastName}} ({{user.nickname}})</td>
+        </tr> 
+
+        <tr>
+          <td>First Name</td>
+          <td>{{user.firstName}}</td>
+        </tr>
+
+        <tr>
+          <td>Last Name</td>
+          <td>{{user.lastName}}</td>
+        </tr>
+        
+        <tr>
+          <td>Nickname</td>
+          <td>{{user.nickname}}</td>
+        </tr>
+        
+        <tr>
+          <td>Email</td>
+          <td>{{user.email}}</td>
+        </tr>
+
+        <tr>
+          <td>Phone</td>
+          <td>{{user.phone}}</td>
+        </tr>
+        
+        <tr>
+          <td>Short Description</td>
+          <td>{{user.shortDesc}}</td>
+        </tr>
+
+        <tr>
+          <td>Description</td>
+          <td>{{user.description}}</td>
+        </tr>
+
+        <tr>
+          <td>Status</td>
+          <td>{{user.status}}</td>
+        </tr>
+
+        <tr>
+          <td>Available</td>
+          <td>{{user.available}}</td>
+        </tr>
+
+        <tr>
+          <td>Avatar Url</td>
+          <td>{{user.avatarUrl}}</td>
+        </tr>
+
+        <tr>
+          <td>Video Url</td>
+          <td>{{user.videoUrl}}</td>
+        </tr>
+
+        <tr>
+          <td>Source</td>
+          <td>{{user.source}}</td>
+        </tr>
+
+        <tr>
+          <td>Facebook Url</td>
+          <td>{{user.facebookUrl}}</td>
+        </tr>
+
+        <tr>
+          <td>WeChat Id</td>
+          <td>{{user.wechatId}}</td>
+        </tr>
+
+        <tr>
+          <td>whatsappId</td>
+          <td>{{user.whatsappId}}</td>
+        </tr>
+
+        <tr>
+          <td>Created At</td>
+          <td>{{user.createdAt}}</td>
+        </tr>
+
+        <tr>
+          <td>Updated At</td>
+          <td>{{user.updatedAt}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="large-5 columns">
+    <table>
+      <thead>
+        <tr>
+          <th width="40%">Profile Details</th>
+          <th width="60%"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Profile Type</td>
+          <td>{{profile.profileType}}</td>
+        </tr>
+
+        <tr>
+          <td>Cities</td>
+          <td>
+            {{#each profile.data.cities}}
+              <span>{{this}}</span>
+            {{/each}}
+          </td>
+        </tr>
+
+        <tr>
+          <td>Vehicles</td>
+          <td>
+            {{#each profile.data.vehicles}}
+              <span>{{this}}</span>
+            {{/each}}
+          </td>
+        </tr>
+
+        <tr>
+          <td>Language Spoken</td>
+          <td>
+            {{#each profile.data.languagesSpoken}}
+              <span>{{this}}</span>
+            {{/each}}
+          </td>
+        </tr>
+
+        <tr>
+          <td>Language Written</td>
+          <td>
+            {{#each profile.data.languagesWritten}}
+              <span>{{this}}</span>
+            {{/each}}
+          </td>
+        </tr>
+
+        <tr>
+          <td>Driving Experience</td>
+          <td>{{profile.data.drivingExperience}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  {{/with}}
+</div>

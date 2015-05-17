@@ -1,0 +1,67 @@
+body {
+  width: 100%;
+  height: 100%;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.admin-index {
+  display: table;
+  height: 100%;
+
+  .login {
+    display: table-cell;
+    vertical-align: middle;
+  }
+}
+
+.dashboard-content {
+  height: 100%;
+  padding: 40px 0;
+
+  .dashboard-tile {
+    display: inline-block;
+    width: 320px;
+    height: 240px;
+    border-radius: 4px;
+    position: relative;
+
+    .title {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      color: #fff;
+      font-weight: 300;
+      font-size: 1.75em;
+    }
+  }
+
+  .dashboard-tile.driver {
+    background-color: #4aa3df;
+  }
+}
+
+.driver-index {
+  margin-top: 60px;
+
+  .table-content table {
+    width: 100%;
+  }
+}
+
+.driver-show {
+  padding: 40px 20px;
+
+  table {
+    width: 100%;
+
+    span:not(:first-child)::before {
+      content: ", ";
+    }
+  }
+
+  a.back {
+    padding-left: 15px;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+}

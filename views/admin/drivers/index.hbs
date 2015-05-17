@@ -1,0 +1,36 @@
+<div class="row driver-index">
+  <div class="large-12 large-centered columns">
+
+    <div class="row page-actions">
+      <a class="button" href="/admin/drivers/new">Add Driver</a>
+    </div>
+
+    <div class="row table-content">
+      <table>
+        <thead>
+          <tr>
+            <th width="20%">Name</th>
+            <th width="20%">Email</th>
+            <th width="50%">Short Description</th>
+            <th width="10%">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {{#each drivers}}
+            <tr>
+              <td>{{user.firstName}} {{user.lastName}} ({{user.nickname}})</td>
+              <td>{{user.email}}</td>
+              <td>{{user.shortDesc}}</td>
+              <td>
+                <a href="/admin/drivers/{{user.id}}">Show</a>
+                <a href="/admin/drivers/{{user.id}}/edit">Edit</a>
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
