@@ -1,0 +1,5 @@
+scss:
+  enabled: true
+
+javascript:
+  config_file: .node-style.json
