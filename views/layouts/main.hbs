@@ -5,6 +5,9 @@
 </head>
 <body>
   {{> top-bar }} 
+  {{#if notice}}
+      {{notice}}
+  {{/if}}
   {{{body}}}
 </body>
 </html>
