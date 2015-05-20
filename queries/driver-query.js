@@ -10,11 +10,10 @@ DriverQuery.prototype = _.extend(DriverQuery.prototype, {
   findAll: function() {
     this.deferred = Q.defer();
 
-    _.bindAll(this, '_findAllDriverProfiles', '_findAllUsers', '_filterDrivers', '_result');
+    _.bindAll(this, '_findAllDriverProfiles', '_findAllUsers', '_result');
     async.waterfall([
       this._findAllDriverProfiles,
-      this._findAllUsers,
-      this._filterDrivers,
+      this._findAllUsers
     ], this._result);
 
     return this.deferred.promise;
@@ -24,58 +23,39 @@ DriverQuery.prototype = _.extend(DriverQuery.prototype, {
     this.userId = userId;
     this.deferred = Q.defer();
 
-    _.bindAll(this, '_findUser', '_filterDriver', '_result');
+    _.bindAll(this, '_findUser', '_result');
     async.waterfall([
       this._findUser,
-      this._filterDriver,
     ], this._result);
 
     return this.deferred.promise;
   },
 
   _findAllDriverProfiles: function(next) {
-    db.Profile
-      .findAll({ where: { profileType: 'DriverProfile' } })
+    db.DriverProfile
+      .findAll({
+        include: [{ model: db.User, as: 'User' }],
+        where: { profileType: 'DriverProfile' }
+      })
       .then(function(profiles) {
         next(null, profiles);
       });
   },
 
   _findAllUsers: function(profiles, next) {
-    userIds = profiles.map( p => p.UserId );
-    db.User
-      .findAll({
-        include: [{ model: db.Profile, as: 'Profiles' }],
-        where:   { id: { $in: userIds } }
-      })
-      .then(function(users) {
-        next(null, users);
-      });
-  },
-
-  _filterDrivers: function(users, next) {
-    var drivers = _.map(users, this._driverView);
-    next(null, drivers);
+    users = profiles.map( p => ({ user: p.User, profile: p }));
+    next(null, users);
   },
 
   _findUser: function(next) {
     db.User
       .find({
-        include: [{ model: db.Profile, as: 'Profiles' }],
+        include: [{ model: db.DriverProfile, as: 'DriverProfile' }],
         where:   { id: this.userId }
       })
       .then(function(user) {
-        next(null, user);
+        next(null, {user: user, profile: user.DriverProfile});
       });
-  },
-
-  _filterDriver: function(user, next){
-    next(null, this._driverView(user));
-  },
-
-  _driverView: function(user) {
-    var driver = { user: user, profile: user.Profiles[0] };
-    return driver;
   },
 
   _result: function(err, result) {
