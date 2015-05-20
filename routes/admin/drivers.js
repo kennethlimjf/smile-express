@@ -2,7 +2,8 @@ const
   express     = require('express'),
   router      = express.Router(),
   db          = require('../../models'),
-  DriverQuery = require('../../queries/driver-query');
+  DriverQuery = require('../../queries/driver-query'),
+  DriverForm  = require('../../forms/driver-form');
 
 router.param('userId', function(request, response, next, userId) {
   new DriverQuery()
@@ -34,7 +35,19 @@ router
 
   // GET /admin/drivers/:userId/edit
   .get('/admin/drivers/:userId/edit', function(request, response) {
-    response.render('admin/drivers/edit', { driver: request.driver });
+    var formUrl = '/admin/drivers/' + request.params.userId + '/update?_method=PUT';
+    var form = new DriverForm(request.driver, formUrl);
+    response.addLocals({ notice: request.flash('notice') })
+    response.render('admin/drivers/edit', { form: form });
+  })
+
+  .put('/admin/drivers/:userId/update', function(request, response) {
+    var formUrl = '/admin/drivers/' + request.params.userId + '/update?_method=PUT';
+    var form = new DriverForm(request.driver, formUrl, request.body);
+    form.save().then(function(){
+      request.flash('notice', 'Driver updated');
+      response.redirect('/admin/drivers/' + request.params.userId + '/edit');
+    })
   })
 
   // GET /admin/drivers/new
