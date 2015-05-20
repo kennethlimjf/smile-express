@@ -48,7 +48,7 @@ body {
   }
 }
 
-.driver-show {
+.driver-show, .driver-edit {
   padding: 40px 20px;
 
   table {
@@ -56,6 +56,10 @@ body {
 
     span:not(:first-child)::before {
       content: ", ";
+    }
+
+    input {
+      margin: 0;
     }
   }
 

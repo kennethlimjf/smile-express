@@ -1,0 +1,149 @@
+<form action="{{form.formUrl}}" method="POST">
+  <input type="hidden" name="_csrf" value="{{csrfToken}}">
+  {{#with form.data}}
+  <div class="form-action">
+    <button type="submit">Save</button>
+  </div>
+  <div class="large-7 columns">
+    <table>
+      <thead>
+        <tr>
+          <th width="20%">Driver Details</th>
+          <th width="80%"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>First Name</td>
+          <td><input type="text" name="firstName" placeholder="First Name" value="{{firstName}}" /></td>
+        </tr>
+
+        <tr>
+          <td>Last Name</td>
+          <td><input type="text" name="lastName" placeholder="Last Name" value="{{lastName}}" /></td>
+        </tr>
+        
+        <tr>
+          <td>Nickname</td>
+          <td><input type="text" name="nickname" placeholder="Nickname" value="{{nickname}}" /></td>
+        </tr>
+        
+        <tr>
+          <td>Email</td>
+          <td><input type="text" name="email" placeholder="E-mail Address" value="{{email}}" /></td>
+        </tr>
+
+        <tr>
+          <td>Phone</td>
+          <td><input type="text" name="phone" placeholder="Phone" value="{{phone}}" /></td>
+        </tr>
+        
+        <tr>
+          <td>Short Description</td>
+          <td><input type="text" name="shortDesc" placeholder="Short Description" value="{{shortDesc}}" /></td>
+        </tr>
+
+        <tr>
+          <td>Description</td>
+          <td>
+            <textarea name="description" placeholder="Description" rows="5">{{description}}</textarea>
+          </td>
+        </tr>
+
+        <tr>
+          <td>Status</td>
+          <td><input type="text" name="status" placeholder="Status" value="{{status}}" /></td>
+        </tr>
+
+        <tr>
+          <td>Available</td>
+          <td><input type="checkbox" name="available" {{#if available}}checked{{/if}} /></td>
+        </tr>
+
+        <tr>
+          <td>Video Url</td>
+          <td><input type="text" name="videoUrl" placeholder="Video Url" value="{{videoUrl}}"/></td>
+        </tr>
+
+        <tr>
+          <td>Source</td>
+          <td><input type="text" name="source" placeholder="Source" value="{{source}}"/></td>
+        </tr>
+
+        <tr>
+          <td>Facebook Url</td>
+          <td><input type="text" name="facebookUrl" placeholder="Facebook Url" value="{{facebookUrl}}"/></td>
+        </tr>
+
+        <tr>
+          <td>WeChat Id</td>
+          <td><input type="text" name="wechatId" placeholder="WeChat Id" value="{{wechatId}}" /></td>
+        </tr>
+
+        <tr>
+          <td>WhatsApp Id</td>
+          <td><input type="text" name="whatsappId" placeholder="WhatsApp Id" value="{{whatsappId}}" /></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="large-5 columns">
+    <table>
+      <thead>
+        <tr>
+          <th width="40%">Profile Details</th>
+          <th width="60%"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Profile Type</td>
+          <td><input type="text" name="profileType" value="DriverProfile" disabled /></td>
+        </tr>
+
+        <tr>
+          <td>Cities</td>
+          <td>
+            {{#each cityOptions}}
+              {{> 'checkbox'}}
+            {{/each}}
+          </td>
+        </tr>
+
+        <tr>
+          <td>Vehicles</td>
+          <td>
+            {{#each vehicleOptions}}
+              {{> 'checkbox'}}
+            {{/each}}
+          </td>
+        </tr>
+
+        <tr>
+          <td>Language Spoken</td>
+          <td>
+            {{#each spokenOptions}}
+              {{> 'checkbox'}}
+            {{/each}}
+          </td>
+        </tr>
+
+        <tr>
+          <td>Language Written</td>
+          <td>
+            {{#each writtenOptions}}
+              {{> 'checkbox'}}
+            {{/each}}
+          </td>
+        </tr>
+
+        <tr>
+          <td>Driving Experience</td>
+          <td><input type="number" name="drivingExperience" value="{{drivingExperience}}"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  {{/with}}
+</form>
