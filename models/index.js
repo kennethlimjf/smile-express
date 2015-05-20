@@ -28,7 +28,10 @@ Object.keys(db).forEach(function(modelName) {
 // Define relations here (I don't quite like how this structured, prefer to be
 // in Model definition)
 db.User.hasMany(db.Profile, { as: 'Profiles' });
+db.User.hasOne(db.DriverProfile, { foreignKey: 'UserId' });
+
 db.Profile.belongsTo(db.User);
+db.DriverProfile.belongsTo(db.User);
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

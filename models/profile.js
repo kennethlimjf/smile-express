@@ -1,15 +1,12 @@
 'use strict';
 
-module.exports = function(sequelize, DataTypes) {
-  var Profile = sequelize.define(
-    'Profile', {
-      UserId:      DataTypes.INTEGER,
-      profileType: DataTypes.STRING,
-      data:        DataTypes.JSONB,
-      createdAt:   DataTypes.DATE,
-      updatedAt:   DataTypes.DATE
-    }
-  );
+var profileSchema = require('./profile/base-profile');
 
-  return Profile;
+module.exports = function(sequelize, DataTypes) {
+
+  var modelName = 'Profile';
+  var schemaDefinition = profileSchema(DataTypes);
+  schemaDefinition.unshift(modelName);
+
+  return sequelize.define.apply(sequelize, schemaDefinition);
 };
