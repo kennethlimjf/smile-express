@@ -1,8 +1,5 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --harmony
 
 var repl = require("repl");
 var context = repl.start("app-console > ").context;
-var models = require("../models");
-
-context.User = models.User
-context.AdminUser = models.AdminUser
+var db = require("../models");
