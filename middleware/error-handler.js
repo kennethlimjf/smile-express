@@ -8,7 +8,8 @@ var internalErrorDevelopment = function(err, request, response, next) {
   response.status(err.status || 500);
   response.render('error', {
     message: err.message,
-    error: err
+    error: err,
+    stack: err.stack
   });
 };
 
