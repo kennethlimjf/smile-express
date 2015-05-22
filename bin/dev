@@ -1,0 +1,1 @@
+#!/usr/bin/env nodemon --harmony --debug app.js
