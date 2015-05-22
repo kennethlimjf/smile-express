@@ -48,7 +48,9 @@ body {
   }
 }
 
-.driver-show, .driver-edit {
+.driver-show,
+.driver-edit,
+.driver-new {
   padding: 40px 20px;
 
   table {

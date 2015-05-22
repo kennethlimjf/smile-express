@@ -32,4 +32,12 @@ app
   .use(router)
   .use(middleware.errorHandler(app));
 
-module.exports = app;
+if (app.get('env') === 'development') {
+  var server = app.listen(3000, function(){
+    var host = server.address().address;
+    var port = server.address().port;
+    console.log('Listening on http://%s:%s', host, port);
+  });
+} else {
+  module.exports = app;
+}
