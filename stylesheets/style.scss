@@ -43,6 +43,21 @@ body {
 .driver-index {
   margin-top: 60px;
 
+  a {
+    margin-right: 10px;
+  }
+
+  .destroy-action {
+    display: inline-block;
+    margin-left: 30px;
+  }
+
+  .destroy-link {
+    color: #ff0000;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
   .table-content table {
     width: 100%;
   }
@@ -63,6 +78,12 @@ body {
     input {
       margin: 0;
     }
+  }
+
+  .form-action button {
+    position: absolute;
+    right: 36px;
+    top: 62px;
   }
 
   a.back {
