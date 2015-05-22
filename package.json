@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node --harmony ./bin/www",
+    "start": "NODE_ENV=production PORT=8000 forever start -c 'node --harmony' /bin/www",
+    "stop" : "forever stopall",
     "console": "node --harmony ./bin/console",
     "seed": "node --harmony ./config/seed.js"
   },
