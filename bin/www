@@ -1,4 +1,4 @@
-#!/usr/bin/env nodemon --harmony
+#!/usr/bin/env node --harmony
 
 /**
  * Module dependencies.
@@ -13,6 +13,7 @@ var http = require('http');
  */
 
 var port = normalizePort(process.env.PORT || '3000');
+app.set('env', 'production');
 app.set('port', port);
 
 /**

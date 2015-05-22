@@ -1,20 +1,17 @@
 const
   Q             = require('q'),
+  db            = require('../models'),
   _             = require('underscore'),
   DriverService = require('../services/driver-service');
 
-var DriverForm = function(driver, formUrl, submitData) {
-  this.submitData = submitData;
-  this.formUrl = formUrl;
-  this.driver = driver;
-  this.data   = {};
+var DriverForm = function(params) {
+  this.submitData = params.submitData;
+  this.formUrl    = params.formUrl;
+  this.driver     = params.driver;
+  this.action     = params.action;
+  this.data       = {};
 
-  if(_.isObject(this.submitData)) {
-    this.process();
-    this.save();
-  } else {
-    this._setFormData();
-  }
+  this._setFormData();
 };
 
 DriverForm.prototype = _.extend(DriverForm.prototype, {
@@ -40,11 +37,36 @@ DriverForm.prototype = _.extend(DriverForm.prototype, {
   ],
 
   save: function() {
+    this.process();
+
+    if (this.action === 'create') {
+      return this.create();
+    } else if (this.action === 'update') {
+      return this.update();
+    }
+  },
+
+  create: function() {
     this.deferred = Q.defer();
-    var callback = function(result) { this.deferred.resolve(result); }.bind(this);
+    var callback = function(result) {
+      this.deferred.resolve(result);
+    }.bind(this);
 
     new DriverService()
-      .update({ user: this.driver.user, profile: this.driver.profile })
+      .save({ user: this.driver.user, profile: this.driver.profile  })
+      .then(callback);
+
+    return this.deferred.promise;
+  },
+
+  update: function() {
+    this.deferred = Q.defer();
+    var callback = function(result) {
+      this.deferred.resolve(result);
+    }.bind(this);
+
+    new DriverService()
+      .save({ user: this.driver.user, profile: this.driver.profile })
       .then(callback);
 
     return this.deferred.promise;
@@ -95,7 +117,8 @@ DriverForm.prototype = _.extend(DriverForm.prototype, {
   _processUser: function() {
     var _this = this;
     var user = this.driver.user
-    var keys = _.difference(user.options.attributes, this.excludeKeys);
+    var userKeys = Object.keys(db.User.tableAttributes);
+    var keys = _.difference(userKeys, this.excludeKeys);
     keys.forEach(function(key) {
       user.setDataValue(key, _this.submitData[key]);
     });

@@ -3,15 +3,20 @@ const
   router      = express.Router(),
   db          = require('../../models'),
   DriverQuery = require('../../queries/driver-query'),
-  DriverForm  = require('../../forms/driver-form');
+  DriverForm  = require('../../forms/driver-form'),
+  DriverService = require('../../services/driver-service');
 
 router.param('userId', function(request, response, next, userId) {
-  new DriverQuery()
-    .find(userId)
-    .then(function(driver) {
-      request.driver = driver;
-      return next();
-    });
+  if(userId !== 'new') {
+    new DriverQuery()
+      .find(userId)
+      .then(function(driver) {
+        request.driver = driver;
+        return next();
+      });
+  } else {
+    return next();
+  }
 });
 
 router
@@ -29,46 +34,75 @@ router
   })
 
   // GET /admin/drivers/:userId
-  .get('/admin/drivers/:userId', function(request, response) {
+  .get('/admin/drivers/:userId', function(request, response, next) {
+    if(request.params.userId === 'new') { return next(); }
     response.render('admin/drivers/show', { driver: request.driver });
   })
 
-  // GET /admin/drivers/:userId/edit
-  .get('/admin/drivers/:userId/edit', function(request, response) {
-    var formUrl = '/admin/drivers/' + request.params.userId + '/update?_method=PUT';
-    var form = new DriverForm(request.driver, formUrl);
-    response.addLocals({ notice: request.flash('notice') })
-    response.render('admin/drivers/edit', { form: form });
-  })
-
-  .put('/admin/drivers/:userId/update', function(request, response) {
-    var formUrl = '/admin/drivers/' + request.params.userId + '/update?_method=PUT';
-    var form = new DriverForm(request.driver, formUrl, request.body);
-    form.save().then(function(){
-      request.flash('notice', 'Driver updated');
-      response.redirect('/admin/drivers/' + request.params.userId + '/edit');
-    })
-  })
-
   // GET /admin/drivers/new
-  .get('/admin/drivers', function(request, response) {
-      var driverForm = new DriverForm(null);
-      response.render('/admin/users/new')
+  .get('/admin/drivers/new', function(request, response) {
+    var
+      formUrl    = '/admin/drivers',
+      driver     = new DriverService().build(),
+      formParams = {
+        driver:  driver,
+        formUrl: formUrl,
+        action: 'new'
+      };
+
+    var form = new DriverForm(formParams);
+    response.addLocals({ notice: request.flash('notice') })
+    response.render('admin/drivers/new', { form: form });
   })
 
   // POST /admin/drivers
   .post('/admin/drivers', function(request, response) {
-    var formParams;
-    var form = new DriverForm(request, response);
+    var
+      formUrl    = '/admin/drivers/' + request.params.userId + '?_method=PUT',
+      driver     = new DriverService().build(),
+      formParams = {
+        driver:     driver,
+        formUrl:    formUrl,
+        submitData: request.body,
+        action:     'create'
+      };
 
-    if(form.valid()) {
-      form.save().then(function(response){
-        response.redirect('admin/users');
-      });
-    } else {
-      response.addLocals({ errors: form.errorMessages() });
-      response.render('/admin/users/new');
-    }
+    var form = new DriverForm(formParams);
+    form.save().then(function(){
+      request.flash('notice', 'Driver updated');
+      response.redirect('/admin/drivers');
+    });
+  })
+
+  // GET /admin/drivers/:userId/edit
+  .get('/admin/drivers/:userId/edit', function(request, response) {
+    var
+      formUrl = '/admin/drivers/' + request.params.userId + '?_method=PUT',
+      formParams = {
+        formUrl: formUrl,
+        driver:  request.driver,
+        action:  'edit'
+      };
+
+    var form = new DriverForm(formParams);
+    response.addLocals({ notice: request.flash('notice') });
+    response.render('admin/drivers/edit', { form: form });
+  })
+
+  // PUT /admin/drivesrs/:userId/update
+  .put('/admin/drivers/:userId', function(request, response) {
+    var formUrl = '/admin/drivers/' + request.params.userId + '?_method=PUT',
+        formParams = {
+          formUrl:    formUrl,
+          driver:     request.driver,
+          submitData: request.body,
+          action:     'update'
+        };
+    var form = new DriverForm(formParams);
+    form.save().then(function(){
+      request.flash('notice', 'Driver updated');
+      response.redirect('/admin/drivers/' + request.params.userId + '/edit');
+    });
   });
 
 module.exports = router;
