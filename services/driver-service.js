@@ -12,6 +12,7 @@ DriverService.prototype = _.extend(DriverService.prototype, {
       profile: db.DriverProfile.build({ data: this.profileData() })
     };
   },
+
   profileData: function() {
     return {
       languagesSpoken: [],
@@ -21,6 +22,7 @@ DriverService.prototype = _.extend(DriverService.prototype, {
       drivingExperience: null
     };
   },
+
   save: function(models) {
     var _this = this;
     this.deferred = Q.defer();
@@ -40,6 +42,30 @@ DriverService.prototype = _.extend(DriverService.prototype, {
       _this.deferred.resolve(true);
     })
     .catch(function(err) {
+      // Transaction failed and rolled-back
+      _this.deferred.reject(false);
+    });
+
+    return this.deferred.promise;
+  },
+
+  destroy: function(models) {
+    var _this = this;
+    this.deferred = Q.defer();
+
+    db.sequelize.transaction(function(t) {
+      return models
+              .user
+              .destroy({}, { transaction: t })
+              .then(function(){
+                 return models.profile.destroy({}, { transaction: t });
+              });
+    })
+    .then(function() {
+      // Transaction success and committed
+      _this.deferred.resolve(true);
+    })
+    .catch(function() {
       // Transaction failed and rolled-back
       _this.deferred.reject(false);
     });

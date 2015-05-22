@@ -25,7 +25,10 @@ router
     new DriverQuery()
       .findAll()
       .then(function(drivers){
-        response.addLocals({ drivers: drivers });
+        response.addLocals({
+          drivers: drivers,
+          notice: request.flash('notice')
+        });
         response.render('admin/drivers');
       })
       .fail(function(err){
@@ -89,7 +92,7 @@ router
     response.render('admin/drivers/edit', { form: form });
   })
 
-  // PUT /admin/drivesrs/:userId/update
+  // PUT /admin/drivers/:userId/update
   .put('/admin/drivers/:userId', function(request, response) {
     var formUrl = '/admin/drivers/' + request.params.userId + '?_method=PUT',
         formParams = {
@@ -99,10 +102,20 @@ router
           action:     'update'
         };
     var form = new DriverForm(formParams);
-    form.save().then(function(){
+    form.save().then(function() {
       request.flash('notice', 'Driver updated');
       response.redirect('/admin/drivers/' + request.params.userId + '/edit');
     });
+  })
+
+  // DELETE /admin/drivers/:userId
+  .delete('/admin/drivers/:userId', function(request, response) {
+    new DriverService()
+      .destroy(request.driver)
+      .then(function() {
+        request.flash('notice', 'Driver destroyed');
+        response.redirect('/admin/drivers');
+      });
   });
 
 module.exports = router;

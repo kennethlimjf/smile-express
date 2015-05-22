@@ -11,8 +11,8 @@
           <tr>
             <th width="20%">Name</th>
             <th width="20%">Email</th>
-            <th width="50%">Short Description</th>
-            <th width="10%">Actions</th>
+            <th width="40%">Short Description</th>
+            <th width="20%">Actions</th>
           </tr>
         </thead>
 
@@ -25,6 +25,10 @@
               <td>
                 <a href="/admin/drivers/{{user.id}}">Show</a>
                 <a href="/admin/drivers/{{user.id}}/edit">Edit</a>
+                <form class="destroy-action" method="POST" action="/admin/drivers/{{user.id}}?_method=DELETE">
+                  <input type="hidden" name="_csrf" value="{{../csrfToken}}" />
+                  <a href="javascript:;" class="destroy-link" onclick="parentNode.submit();">Destroy</a>
+                </form>
               </td>
             </tr>
           {{/each}}
