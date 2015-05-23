@@ -1,10 +1,10 @@
 const
-  express     = require('express'),
-  router      = express.Router(),
-  db          = require('../../models'),
-  uploaders   = require('../../uploaders'),
-  DriverQuery = require('../../queries/driver-query'),
-  DriverForm  = require('../../forms/driver-form'),
+  express       = require('express'),
+  router        = express.Router(),
+  db            = require('../../models'),
+  uploaders     = require('../../uploaders'),
+  DriverQuery   = require('../../queries/driver-query'),
+  DriverForm    = require('../../forms/driver-form'),
   DriverService = require('../../services/driver-service');
 
 router.param('userId', function(request, response, next, userId) {
@@ -94,26 +94,16 @@ router
   })
 
   // PUT /admin/drivers/:userId/update
-  .put('/admin/drivers/:userId', function(request, response) {
+  .put('/admin/drivers/:userId', uploaders.handleUploads, function(request, response) {
     var
-      avatarUpload = new uploaders.AvatarUploader(),
-      formUrl      = '/admin/drivers/' + request.params.userId + '?_method=PUT',
-      formParams   = {
-        formUrl:    formUrl,
-        driver:     request.driver,
-        submitData: request.body,
-        action:     'update'
-      },
-      form         = new DriverForm(formParams);
+      formUrl    = '/admin/drivers/' + request.params.userId + '?_method=PUT',
+      formParams = { formUrl: formUrl, driver: request.driver, submitData: request.body, action: 'update' },
+      form       = new DriverForm(formParams);
 
-    avatarUpload
-      .processUpload(request)
-      .then(function(){
-        form.save().then(function() {
-          request.flash('notice', 'Driver updated');
-          response.redirect('/admin/drivers/' + request.params.userId + '/edit');
-        });
-      });
+    form.save().then(function() {
+      request.flash('notice', 'Driver updated');
+      response.redirect('/admin/drivers/' + request.params.userId + '/edit');
+    });
   })
 
   // DELETE /admin/drivers/:userId
