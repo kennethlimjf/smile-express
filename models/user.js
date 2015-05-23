@@ -14,6 +14,7 @@ module.exports = function(sequelize, DataTypes) {
       status:         { type: DataTypes.STRING, defaultValue: "active" },
       available:      { type: DataTypes.BOOLEAN, defaultValue: true },
       avatarUrl:      DataTypes.STRING,
+      wallUrl:        DataTypes.STRING,
       videoUrl:       DataTypes.STRING,
       source:         DataTypes.STRING,
       facebookUrl:    DataTypes.STRING,

@@ -1,7 +1,8 @@
 const
   _              = require('underscore'),
   async          = require('async'),
-  AvatarUploader = require('./avatar-uploader');
+  AvatarUploader = require('./avatar-uploader'),
+  WallUploader   = require('./wall-uploader');
 
 var UploadsHandler = function(request, next) {
   this.request         = request;
@@ -38,11 +39,16 @@ var handleUploads = function(request, response, next) {
     var avatarUploader = new AvatarUploader();
     uploadsHandler.enqueue(avatarUploader);
   }
+  if(request.files.wall !== undefined) {
+    var wallUploader = new WallUploader();
+    uploadsHandler.enqueue(wallUploader);
+  }
 
   uploadsHandler.processUploads();
 };
 
 module.exports = {
   AvatarUploader: AvatarUploader,
+  WallUploader:   WallUploader,
   handleUploads:  handleUploads
 };

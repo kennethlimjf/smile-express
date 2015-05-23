@@ -108,8 +108,14 @@
 
   <div class="large-5 columns">
     {{#if user.avatarUrl}}
-    <div class="avatar">
+    <div class="image">
       <img src="{{user.avatarUrl}}" alt="">
+    </div>
+    {{/if}}
+
+    {{#if user.wallUrl}}
+    <div class="image">
+      <img src="{{user.wallUrl}}" alt="">
     </div>
     {{/if}}
 

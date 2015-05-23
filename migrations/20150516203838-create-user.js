@@ -17,6 +17,7 @@ module.exports = {
         status:         { type: Sequelize.STRING, defaultValue: 'active' },
         available:      { type: Sequelize.BOOLEAN, defaultValue: true },
         avatarUrl:      Sequelize.STRING,
+        wallUrl:        Sequelize.STRING,
         videoUrl:       Sequelize.STRING,
         source:         Sequelize.STRING,
         facebookUrl:    Sequelize.STRING,
