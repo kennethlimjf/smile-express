@@ -1,7 +1,6 @@
 const
   express       = require('express'),
   router        = express.Router(),
-  db            = require('../../models'),
   uploaders     = require('../../uploaders'),
   DriverQuery   = require('../../queries/driver-query'),
   DriverForm    = require('../../forms/driver-form'),
@@ -60,7 +59,7 @@ router
   })
 
   // POST /admin/drivers
-  .post('/admin/drivers', function(request, response) {
+  .post('/admin/drivers', uploaders.handleUploads, function(request, response) {
     var
       formUrl    = '/admin/drivers/' + request.params.userId + '?_method=PUT',
       driver     = new DriverService().build(),

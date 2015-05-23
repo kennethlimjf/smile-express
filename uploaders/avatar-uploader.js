@@ -3,16 +3,17 @@ const
   _        = require('underscore'),
   async    = require('async'),
   path     = require('path'),
+  moment   = require('moment'),
   papercut = require('papercut');
 
 papercut.configure(function(){
   papercut.set('storage', 'file');
   papercut.set('directory', path.join(__dirname, '/../public/images/uploads/avatar'));
-  papercut.set('url', 'images/uploads/avatar');
+  papercut.set('url', '/images/uploads/avatar');
   papercut.set('extension', 'jpg');
 });
 
-var AvatarUploader = papercut.Schema(function(schema) {
+var AvatarUploader = papercut.Schema(function() {
   this.version({
     name: 'avatar',
     size: '250x250',
@@ -22,7 +23,11 @@ var AvatarUploader = papercut.Schema(function(schema) {
 
 AvatarUploader.prototype = _.extend(AvatarUploader.prototype, {
   filename: function() {
-    return this.request.driver.user.id.toString() + "-" + Date.now().toString()
+    var
+      userId = (this.request.driver === undefined) ? '_' : this.request.driver.user.id ,
+      time   = moment().format('YYYYMMDDhhmmss');
+
+    return userId + '-' + time;
   },
 
   processUpload: function(request) {

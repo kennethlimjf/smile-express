@@ -19,7 +19,7 @@ UploadsHandler.prototype = _.extend({
           callback(null, true);
         });
     };
-    this.uploads.push(task)
+    this.uploads.push(task);
   },
 
   processUploads: function() {
@@ -32,7 +32,7 @@ UploadsHandler.prototype = _.extend({
 });
 
 var handleUploads = function(request, response, next) {
-  uploadsHandler = new UploadsHandler(request, next);
+  var uploadsHandler = new UploadsHandler(request, next);
 
   if(request.files.avatar !== undefined) {
     var avatarUploader = new AvatarUploader();
@@ -40,7 +40,7 @@ var handleUploads = function(request, response, next) {
   }
 
   uploadsHandler.processUploads();
-}
+};
 
 module.exports = {
   AvatarUploader: AvatarUploader,
