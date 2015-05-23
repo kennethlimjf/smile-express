@@ -10,6 +10,7 @@ module.exports = {
   handlebars:     require('./handlebars'),
   logger:         require('./logger'),
   methodOverride: require('./method-override'),
+  multer:         require('./multer'),
   requestHelper:  require('./request-helper'),
   responseHelper: require('./response-helper'),
   responseTime:   require('./response-time'),

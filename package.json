@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "NODE_ENV=production PORT=8000 forever start -c 'node --harmony' /bin/www",
-    "stop" : "forever stopall",
+    "stop": "forever stopall",
     "console": "node --harmony ./bin/console",
     "seed": "node --harmony ./config/seed.js"
   },
@@ -27,10 +27,13 @@
     "express-handlebars": "^2.0.1",
     "express-session": "^1.11.2",
     "method-override": "^2.3.3",
+    "moment": "^2.10.3",
     "morgan": "~1.5.1",
+    "multer": "^0.1.8",
     "node-sass": "^3.1.1",
     "node-sass-middleware": "^0.6.0",
     "on-headers": "^1.0.0",
+    "papercut": "0.0.6",
     "parseurl": "^1.3.0",
     "passport": "^0.2.1",
     "passport-local": "^1.0.0",

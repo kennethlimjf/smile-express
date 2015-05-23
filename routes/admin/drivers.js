@@ -1,9 +1,9 @@
 const
-  express     = require('express'),
-  router      = express.Router(),
-  db          = require('../../models'),
-  DriverQuery = require('../../queries/driver-query'),
-  DriverForm  = require('../../forms/driver-form'),
+  express       = require('express'),
+  router        = express.Router(),
+  uploaders     = require('../../uploaders'),
+  DriverQuery   = require('../../queries/driver-query'),
+  DriverForm    = require('../../forms/driver-form'),
   DriverService = require('../../services/driver-service');
 
 router.param('userId', function(request, response, next, userId) {
@@ -59,7 +59,7 @@ router
   })
 
   // POST /admin/drivers
-  .post('/admin/drivers', function(request, response) {
+  .post('/admin/drivers', uploaders.handleUploads, function(request, response) {
     var
       formUrl    = '/admin/drivers/' + request.params.userId + '?_method=PUT',
       driver     = new DriverService().build(),
@@ -93,15 +93,12 @@ router
   })
 
   // PUT /admin/drivers/:userId/update
-  .put('/admin/drivers/:userId', function(request, response) {
-    var formUrl = '/admin/drivers/' + request.params.userId + '?_method=PUT',
-        formParams = {
-          formUrl:    formUrl,
-          driver:     request.driver,
-          submitData: request.body,
-          action:     'update'
-        };
-    var form = new DriverForm(formParams);
+  .put('/admin/drivers/:userId', uploaders.handleUploads, function(request, response) {
+    var
+      formUrl    = '/admin/drivers/' + request.params.userId + '?_method=PUT',
+      formParams = { formUrl: formUrl, driver: request.driver, submitData: request.body, action: 'update' },
+      form       = new DriverForm(formParams);
+
     form.save().then(function() {
       request.flash('notice', 'Driver updated');
       response.redirect('/admin/drivers/' + request.params.userId + '/edit');
