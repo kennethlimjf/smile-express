@@ -23,6 +23,7 @@ app
   .use(middleware.bodyParser.urlencoded)
   .use(middleware.cookieParser)
   .use(middleware.session)
+  .use(middleware.multer)
   .use(middleware.csrf)
   .use(middleware.flash)
   .use(middleware.adminAuth.passport.initialize())
