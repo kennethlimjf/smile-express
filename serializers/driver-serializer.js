@@ -1,5 +1,6 @@
 const
   _  = require('underscore'),
+  S  = require('string'),
   db = require('../models');
 
 var DriverSerializer = function(driver) {
@@ -10,12 +11,15 @@ DriverSerializer.prototype = _.extend(DriverSerializer.prototype, {
   blacklist: ['passwordDigest'],
 
   toJSON: function() {
-    var json = {};
-    var keys = _.difference(Object.keys(db.User.tableAttributes), this.blacklist);
     var _this = this;
+    var json = {};
 
-    keys.forEach(k => (json[k] = _this.driver.user[k]));
-    json.data = this.driver.profile.data;
+    var keys = _.difference(Object.keys(db.User.tableAttributes), this.blacklist);
+    keys.forEach(k => (json[S(k).underscore()] = _this.driver.user[k]));
+
+    var dataKeys = Object.keys(this.driver.profile.data);
+    dataKeys.forEach(k => (json[S(k).underscore()] = _this.driver.profile.data[k]));
+
     return json;
   }
 });
